@@ -40,7 +40,7 @@ function apiMiddleware({ getState }) {
     // Parse the validated RSAA action
     const callAPI = action[CALL_API];
     var { endpoint, headers } = callAPI;
-    const { method, body, credentials, bailout, types } = callAPI;
+    const { method, body, credentials, bailout, types, redirect } = callAPI;
     const [requestType, successType, failureType] = normalizeTypeDescriptors(types);
 
     // Should we bail out?
@@ -100,7 +100,7 @@ function apiMiddleware({ getState }) {
 
     try {
       // Make the API call
-      var res = await fetch(endpoint, { method, body, credentials, headers });
+      var res = await fetch(endpoint, { method, body, credentials, headers, redirect });
     } catch(e) {
       // The request was malformed, or there was a network error
       return next(await actionWith(
